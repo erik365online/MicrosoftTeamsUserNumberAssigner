@@ -1,19 +1,19 @@
 ## Welcome Teams User Number Assigner (TDR-UNA)
 
-# Microsoft Teams User Number Assigner
+## Microsoft Teams User Number Assigner
 This small PowerShell-based tool is intended to help you with enabling users for Microsoft Teams Direct Routing.
 
 The script opens a graphical user interface (GUI) to simplify a few basic enablement tasks. It's called the Teams Direct Routing User Number Assigner (TDR-UNA) and can be used to enable a single Teams User for Teams Direct Routing.
 
 Use on your own risk.
 
-## Requirements and prerequisites
+### Requirements and prerequisites
 -Recent PowerShell version
 -PowerShell Script Execution must be enabled (Get-/Set-ExecutionPolicy ...)
 -Microsoft Teams Module V2.3.1 (tested)
 -Microsoft 365 Global Admin or Skype for Business Administrator
 
-## Features V 0.2
+### Features V 0.2
 - GUI for Teams Direct Routing user enablement
 - Connect to Microsoft Teams (only with modern authentication)
 - Disconnect Microsoft Teams
@@ -26,7 +26,7 @@ Use on your own risk.
 - Assign a online voice routing policy
 - Assign a calling policy
 
-## Bugs, issues and limitations V 0.2
+### Bugs, issues and limitations V 0.2
 - Not checking for assigned licsense sku or Assigned Plan for a listed or selected user
 - No refresh of users after a change to a user was applied is implemented (disconnect, close, open, connect required)
 - Even resource accounts are listed
@@ -35,7 +35,7 @@ Use on your own risk.
 - Deleting user phone numbers in not implemented
 - No code-signed script
 
-## Connect & Follow Erik365Online
+# Connect & Follow Erik365Online
 Blog: [https://www.erik365.blog](https://www.erik365.blog)
 
 Twitter: [https://twitter.com/erik365online](https://twitter.com/erik365online)
