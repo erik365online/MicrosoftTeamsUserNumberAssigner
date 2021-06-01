@@ -9,7 +9,7 @@ Use on your own risk.
 ## Requirements and prerequisites
   - Recent PowerShell version
   - PowerShell Script Execution must be enabled (Get-/Set-ExecutionPolicy ...)
-  - Microsoft Teams Module V2.3.1 (tested)
+  - Microsoft Teams Module V2.3.1
   - Microsoft 365 Global Admin or Skype for Business Administrator
 
 ## Features V 0.2	
