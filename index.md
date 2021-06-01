@@ -1,37 +1,41 @@
-## Welcome to GitHub Pages
+## Welcome Teams User Number Assigner (TDR-UNA)
 
-You can use the [editor on GitHub](https://github.com/erik365online/MicrosoftTeamsUserNumberAssigner/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+# MicrosoftTeamsUserNumberAssigner
+This small PowerShell-based tool is intended to help you with enabling users for Microsoft Teams Direct Routing.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+The script opens a graphical user interface (GUI) to simplify a few basic enablement tasks. It's called the Teams Direct Routing User Number Assigner (TDR-UNA) and can be used to enable a single Teams User for Teams Direct Routing.
 
-### Markdown
+Use on your own risk.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## Requirements and prerequisites
+-Recent PowerShell version
+-PowerShell Script Execution must be enabled (Get-/Set-ExecutionPolicy ...)
+-Microsoft Teams Module V2.3.1 (tested)
+-Microsoft 365 Global Admin or Skype for Business Administrator
 
-```markdown
-Syntax highlighted code block
+## Features V 0.2
+- GUI for Teams Direct Routing user enablement
+- Connect to Microsoft Teams (only with modern authentication)
+- Disconnect Microsoft Teams
+- List all users (initial loading, after connect, might take some time depending on your user count)
+- Select a user
+- Set a user's Teams Upgrade mode to TeamsOnly
+- Enable a user for Enterprise Voice
+- Enable a user for Hosted Voicemail
+- Enable a user for Enterprise Voice
+- Assign a online voice routing policy
+- Assign a calling policy
 
-# Header 1
-## Header 2
-### Header 3
+## Bugs, issues and limitations V 0.2
+- Not checking for assigned licsense sku or Assigned Plan for a listed or selected user
+- No refresh of users after a change to a user was applied is implemented (disconnect, close, open, connect required)
+- Even resource accounts are listed
+- Changing resource account numbers is not implemented/supported (!)
+- Deleting resource account phone numbers in not implemented
+- Deleting user phone numbers in not implemented
+- No code-signed script
 
-- Bulleted
-- List
+## Connect & Follow Erik365Online
+Blog: [https://www.erik365.blog](https://www.erik365.blog)
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/erik365online/MicrosoftTeamsUserNumberAssigner/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+Twitter: [https://twitter.com/erik365online](https://twitter.com/erik365online)
