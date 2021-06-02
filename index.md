@@ -1,4 +1,4 @@
-#Welcome Teams User Number Assigner (TDR-UNA)
+# Welcome Teams User Number Assigner (TDR-UNA)
 
 ### Microsoft Teams User Number Assigner
 This small PowerShell-based tool is intended to help you with enabling users for Microsoft Teams Direct Routing.
