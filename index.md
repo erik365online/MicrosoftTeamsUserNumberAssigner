@@ -23,7 +23,7 @@ Use on your own risk.
 - Set a user's Teams Upgrade mode to TeamsOnly
 - Enable a user for Enterprise Voice
 - Enable a user for Hosted Voicemail
-- Enable a user for Enterprise Voice
+- Set a user's phone number
 - Assign a online voice routing policy
 - Assign a calling policy
 
