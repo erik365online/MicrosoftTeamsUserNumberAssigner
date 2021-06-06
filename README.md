@@ -6,6 +6,8 @@ It's called the Teams Direct Routing User Number Assigner (TDR-UNA) and can be u
   
 Use on your own risk.
 
+![TDRUNA](https://raw.githubusercontent.com/erik365online/MicrosoftTeamsUserNumberAssigner/main/15-52-15-Erik365Online%20-%20Teams%20Direct%20Routing%20User%20Number%20Assigner.png)
+
 ## Requirements and prerequisites
   - Recent PowerShell version
   - PowerShell Script Execution must be enabled (Get-/Set-ExecutionPolicy ...)
