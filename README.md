@@ -43,3 +43,7 @@ Use on your own risk.
 - Changing resource account numbers is not implemented/supported (!)
 - Deleting resource account phone numbers in not implemented
 - No code-signed script
+
+### Connect & Follow Erik365Online
+Blog: [https://www.erik365.blog](https://www.erik365.blog)
+Twitter: [https://twitter.com/erik365online](https://twitter.com/erik365online)
