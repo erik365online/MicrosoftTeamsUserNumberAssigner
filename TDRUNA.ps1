@@ -425,9 +425,9 @@ function global:GenerateForm {
 	$Bconnectteams.Add_Click( { ConnectTeamsOnClick } )
 
 	# Bdisconnectteams
-	$Bdisconnectteams.Location = New-Object System.Drawing.Point(400, 10)
+	$Bdisconnectteams.Location = New-Object System.Drawing.Point(390, 10)
 	$Bdisconnectteams.Name = "Bdisconnectteams"
-	$Bdisconnectteams.Size = New-Object System.Drawing.Size(104, 20)
+	$Bdisconnectteams.Size = New-Object System.Drawing.Size(108, 20)
 	$Bdisconnectteams.TabIndex = 1
 	$Bdisconnectteams.Text = "Disconnect Teams"
 	$Bdisconnectteams.UseVisualStyleBackColor = $true
