@@ -40,6 +40,7 @@ Author: Erik Kleefeldt
 24.05.2021 Minor Adjustments
 19.04.2021 Adjustments to run with Teams PowerShell Module Version 4.2.0
 29.12.2023 Optimized and adjustments to run with Teams PowerShell Module Version 5.8.0
+02.01.2024 Optimized and adjustments to run with Teams PowerShell Module Version 5.8.0
 
 .LINK
 https://www.erik365.blog
@@ -57,11 +58,11 @@ https://www.erik365.blog
     }
 
 #Variables area (start declaration)	
-	$connected = "no"
-	$userslistedonce = "no"
-	$ovrpslistedonce = "no"
-	$cpslistedonce = "no"	
-	$url = "https://microsoft.com/devicelogin"
+	$Global:connected = "no"
+	$Global:userslistedonce = "no"
+	$Global:ovrpslistedonce = "no"
+	$Global:cpslistedonce = "no"	
+	$Global:url = "https://microsoft.com/devicelogin"
 
 #Functions
 function FuKeepformok {	
@@ -85,15 +86,15 @@ function FuKeepformok {
 #Connect Teams
 function ConnectTeamsOnClick {	
 	try {			
-		if ($connected -ne "connected"){			
+		if ($Global:connected -ne "connected"){			
 			#Connect Teams
 			Write-Host "Connecting ..." -ForegroundColor Yellow									
 			Write-Host "Please use the shown code from your PowerShell terminal to login via browser ..." -ForegroundColor Yellow
 			# Open the URL in the default web browser
-			Start-Process $url
+			Start-Process $Global:url
 			Connect-MicrosoftTeams -UseDeviceAuthentication
 
-			$connected = "connected"
+			$Global:connected = "connected"
 			[void][System.Windows.Forms.MessageBox]::Show("Connected to Teams")	
 			Write-Host "Connected" -ForegroundColor Yellow			
 			Write-Host "Loading users and policies ..." -ForegroundColor Yellow
@@ -105,12 +106,12 @@ function ConnectTeamsOnClick {
 			Write-Host "Loading completed" -ForegroundColor Yellow
 		}
 		else{			
-			[void][System.Windows.Forms.MessageBox]::Show("Already connected")
+			[void][System.Windows.Forms.MessageBox]::Show("Already connected")			
 			Write-Host "Already Connected." -ForegroundColor Yellow
 		}
 	}
 	catch {	
-		$connected = "no"		
+		$Global:connected = "no"		
 		[void][System.Windows.Forms.MessageBox]::Show("Could not connect to Teams.`n Please ensure connectivity and Teams Module is installed.")
 		Write-Host "Could connect to Teams. Please ensure Teams Module is installed." -ForegroundColor Red
 	}
@@ -118,8 +119,8 @@ function ConnectTeamsOnClick {
 #Referesh Teams contents / reload users and policies
 function RefreshTeamsOnClick {	
 	try {			
-		if ($connected -ne "connected"){
-			$connected = "connected"			
+		if ($Global:connected -ne "connected"){
+			$Global:connected = "connected"			
 			Write-Host "Connected" -ForegroundColor Yellow			
 			Write-Host "Loading users and policies ..." -ForegroundColor Yellow
 			
@@ -135,7 +136,7 @@ function RefreshTeamsOnClick {
 		}
 	}
 	catch {	
-		$connected = "no"		
+		$Global:connected = "no"		
 		[void][System.Windows.Forms.MessageBox]::Show("Could not refresh contents")
 		Write-Host "Could refresh contents" -ForegroundColor Red
 	}
@@ -143,19 +144,19 @@ function RefreshTeamsOnClick {
 #Disconnect MS Teams
 function DisconnectTeamsOnClick {	
 	try {		
-		if ($connected -eq "connected"){			
+		if ($Global:connected -eq "connected"){			
 			Write-Host "Disconnecting Teams" -ForegroundColor Yellow
 			Disconnect-MicrosoftTeams -Verbose	
 			[void][System.Windows.Forms.MessageBox]::Show("Disconnected")
 			Write-Host "Disconnected" -ForegroundColor Yellow
-			$connected = "no"						
+			$Global:connected = "no"						
 		}
 		else {
 			[void][System.Windows.Forms.MessageBox]::Show("Not connected")
 		}		
 	}
 	catch {
-		if ($connected -eq "connected"){$connected = "no"}
+		if ($Global:connected -eq "connected"){$Global:connected = "no"}
 		else {
 			[void][System.Windows.Forms.MessageBox]::Show("Not connected")
 			Write-Host "Not connected" -ForegroundColor Red		
@@ -166,22 +167,22 @@ function DisconnectTeamsOnClick {
 }
 #Get all teams user to populate dropdown list
     function ListUsers {
-        if ($userslistedonce -ne "yes"){	
+        if ($Global:userslistedonce -ne "yes"){	
             try {
-                $userslistedonce = "yes"		
-                $Cselectuser.Items.Clear()
+                $Global:userslistedonce = "yes"		
+                $Global:Cselectuser.Items.Clear()
                 Write-Host "Cleaning user list ..."	-ForegroundColor Yellow			
                 Write-Host "Loading user list ..."	-ForegroundColor Yellow
                 Write-host "Please wait, this can take some time depending on how many users you host on Teams ..." -ForegroundColor Yellow
                 #get users
-                $allusers = Get-CsOnlineUser
+                $Global:allusers = Get-CsOnlineUser
                 #count users
-                $usercounter = ($allusers).count
+                $usercounter = ($Global:allusers).count
                 $ipb1 = 0 #progresscounter
                 #populate dropdown list with upns and display progress bar			
-                $allusers | Sort-Object UserPrincipalName | ForEach-Object {
+                $Global:allusers | Sort-Object UserPrincipalName | ForEach-Object {
                     #assuming that upn=primary smtp=primary sip address 			
-                    [void] $Cselectuser.Items.Add($_.UserPrincipalName)				
+                    [void] $Global:Cselectuser.Items.Add($_.UserPrincipalName)				
                     Write-Progress -Activity "Loading in progress ..." -Status "Progress" -PercentComplete ((($ipb1++) / $usercounter) * 100)
                     }
                     #remove progress bar if done
@@ -191,7 +192,7 @@ function DisconnectTeamsOnClick {
             catch {
                 [void][System.Windows.Forms.MessageBox]::Show("Could not get Team users. `nPlease check connectivity and retry.")
                 Write-Host "Could not get Team users. Please check connectivity and retry." -ForegroundColor Red
-                $userslistedonce = "no"			
+                $Global:userslistedonce = "no"			
             }			
         }
         else {
@@ -202,34 +203,35 @@ function DisconnectTeamsOnClick {
 function SelectUser {	
 	try {	
         Write-Host "############# Selected User #############" -ForegroundColor Yellow
-		$selecteduser = $Cselectuser.SelectedItem
-		Write-Host $selecteduser -ForegroundColor Yellow
+		$Global:selecteduser = $Global:Cselectuser.SelectedItem		
+		Write-Host $Global:selecteduser -ForegroundColor Yellow
 
-		$currentuser = (Get-CsOnlineUser "$selecteduser")		
-		$currentuser | Format-List UserPrincipalName,LineUri,OnlineVoiceRoutingPolicy,TeamsCallingPolicy,TenantDialPlan
+		$Global:currentuser = (Get-CsOnlineUser "$Global:selecteduser")		
+		$Global:currentuser | Format-List UserPrincipalName,LineUri,OnlineVoiceRoutingPolicy,TeamsCallingPolicy,TenantDialPlan
 
 		#Collect data into variables
-		$currentupn = ($currentuser).UserPrincipalName
-		$currentsip = ($currentuser).SipAddress
-		$currentlineuri = ($currentuser).LineUri
-		$currentovrp = ($currentuser).OnlineVoiceRoutingPolicy	
-		$currentcp = ($currentuser).TeamsCallingPolicy		
-		if ($null -eq $currentcp){ 
-			$currentcp = "Global" 
+		$Global:currentupn = ($Global:currentuser).UserPrincipalName
+		$Global:currentsip = ($Global:currentuser).SipAddress
+		$Global:currentlineuri = ($Global:currentuser).LineUri
+		$Global:currentovrp = ($Global:currentuser).OnlineVoiceRoutingPolicy	
+		$Global:currentcp = ($Global:currentuser).TeamsCallingPolicy		
+		if ($null -eq $Global:currentcp){ 
+			$Global:currentcp = "Global" 
 		}
 		else { 
 			#Do nothing 
 		}
 
 		#Build nice output object
-		$currentuserobj = New-Object -TypeName psobject
-		$currentuserobj | Add-Member -MemberType NoteProperty -Name "UPN" -Value "$currentupn"
-		$currentuserobj | Add-Member -MemberType NoteProperty -Name "SIP" -Value "$currentsip"
-		$currentuserobj | Add-Member -MemberType NoteProperty -Name "LineUri" -Value "$currentlineuri"		
-		$currentuserobj | Add-Member -MemberType NoteProperty -Name "OnlineVoiceRoutingPolicy" -Value "$currentovrp"
-		$currentuserobj | Add-Member -MemberType NoteProperty -Name "CallingPolicy" -Value "$currentcp"		
+		$Global:currentuserobj = New-Object -TypeName psobject
+		$Global:currentuserobj | Add-Member -MemberType NoteProperty -Name "UPN" -Value "$Global:currentupn"
+		$Global:currentuserobj | Add-Member -MemberType NoteProperty -Name "SIP" -Value "$Global:currentsip"
+		$Global:currentuserobj | Add-Member -MemberType NoteProperty -Name "LineUri" -Value "$Global:currentlineuri"		
+		$Global:currentuserobj | Add-Member -MemberType NoteProperty -Name "OnlineVoiceRoutingPolicy" -Value "$Global:currentovrp"
+		$Global:currentuserobj | Add-Member -MemberType NoteProperty -Name "CallingPolicy" -Value "$Global:currentcp"
+
 		#Show custom object
-		$currentuserobj.PSObject.Properties | ForEach-Object {
+		$Global:currentuserobj.PSObject.Properties | ForEach-Object {
 			$name = $_.Name 
 			$value = $_.value
 			Write-Host "$name = $value" -ForegroundColor Yellow
@@ -244,54 +246,54 @@ function SelectUser {
 #Assign phone number
 function AssignLineUri {
 	try { 
-		$lineuri = $Tenterlineuri.Text				
-		Set-CsPhoneNumberAssignment -Identity "$selecteduser" -PhoneNumber "$lineuri" -PhoneNumberType DirectRouting
+		$Global:lineuri = $Tenterlineuri.Text				
+		Set-CsPhoneNumberAssignment -Identity "$Global:selecteduser" -PhoneNumber "$Global:lineuri" -PhoneNumberType DirectRouting
 		#Noted and reservered for future releases
-		#Set-CsPhoneNumberAssignment -Identity "$selecteduser" -PhoneNumber "$lineuri" -PhoneNumberType CallingPlan
-		#Set-CsPhoneNumberAssignment -Identity "$selecteduser" -PhoneNumber "$lineuri" -PhoneNumberType OperatorConnect
-		#Set-CsPhoneNumberAssignment -Identity "$selecteduser" -PhoneNumber "$lineuri" -PhoneNumberType OCMobile		
+		#Set-CsPhoneNumberAssignment -Identity "$Global:selecteduser" -PhoneNumber "$Global:lineuri" -PhoneNumberType CallingPlan
+		#Set-CsPhoneNumberAssignment -Identity "$Global:selecteduser" -PhoneNumber "$Global:lineuri" -PhoneNumberType OperatorConnect
+		#Set-CsPhoneNumberAssignment -Identity "$Global:selecteduser" -PhoneNumber "$Global:lineuri" -PhoneNumberType OCMobile		
 		
-		[void][System.Windows.Forms.MessageBox]::Show("$lineuri assigned to $selecteduser.")
-		Write-Host "$lineuri assigned to $selecteduser." -ForegroundColor Yellow
+		[void][System.Windows.Forms.MessageBox]::Show("$Global:lineuri assigned to $Global:selecteduser.")
+		Write-Host "$Global:lineuri assigned to $Global:selecteduser." -ForegroundColor Yellow
 		}
 	catch { 
-		[void][System.Windows.Forms.MessageBox]::Show("Could not assign phone number. `nPlease check´n $lineuri ´nif the value is correct. `nIt must be tel:+49..123.")	
-		Write-Host "Could not assign phone number. Please check $lineuri if the value is correct. It must be +49..123" -ForegroundColor Red
+		[void][System.Windows.Forms.MessageBox]::Show("Could not assign phone number. `nPlease check´n $Global:lineuri ´nif the value is correct. `nIt must be tel:+49..123.")	
+		Write-Host "Could not assign phone number. Please check $Global:lineuri if the value is correct. It must be +49..123" -ForegroundColor Red
 	}
 }
 #Release phone number (DIRECT ROUTING)
 function ReleaseNumber {
 	try { 
-		Remove-CsPhoneNumberAssignment -Identity "$selecteduser" -RemoveAll 
-		Write-Host "Phone number for $selecteduser was removed." -ForegroundColor Yellow
-		[void][System.Windows.Forms.MessageBox]::Show("$selecteduser phone number removed and EV disabled")
+		Remove-CsPhoneNumberAssignment -Identity "$Global:selecteduser" -RemoveAll 
+		Write-Host "Removed phone number for $Global:selecteduser" -ForegroundColor Yellow
+		[void][System.Windows.Forms.MessageBox]::Show("$Global:selecteduser phone number removed and EV disabled")
 		}
 	catch { 
-		[void][System.Windows.Forms.MessageBox]::Show("Could not remove phone number for $selecteduser")	
-		Write-Host "Could not remove phone number for $selecteduser" -ForegroundColor Red
+		[void][System.Windows.Forms.MessageBox]::Show("Could not remove phone number for $Global:selecteduser")	
+		Write-Host "Could not remove phone number for $Global:selecteduser" -ForegroundColor Red
 	}
 }
 #List online voice routing policis
 function ListOVRPs {
-	if ($ovrpslistedonce -ne "yes"){
-		$ovrpslistedonce = "yes"
-		$Cassignvrp.Items.Clear()
+	if ($Global:ovrpslistedonce -ne "yes"){
+		$Global:ovrpslistedonce = "yes"
+		$Global:Cassignvrp.Items.Clear()
 		Write-Host "Loading online voice routing policies ..." -ForegroundColor Yellow
 		try {
-			$allovrps = Get-CsOnlineVoiceRoutingPolicy
-			$ovrpscounter = ($allovrps).count
-			$ipb2 = 0 #progresscounter
-			$allovrps | ForEach-Object { 
-				[void] $Cassignvrp.Items.Add($_.Identity) 
-				Write-Progress -Activity "Loading in online voice routing policies ..." -Status "Progress" -PercentComplete ((($ipb2++) / $ovrpscounter) * 100)
+			$Global:allovrps = Get-CsOnlineVoiceRoutingPolicy
+			$Global:ovrpscounter = ($Global:allovrps).count
+			$Global:ipb2 = 0 #progresscounter
+			$Global:allovrps | ForEach-Object { 
+				[void] $Global:Cassignvrp.Items.Add($_.Identity) 
+				Write-Progress -Activity "Loading in online voice routing policies ..." -Status "Progress" -PercentComplete ((($Global:ipb2++) / $Global:ovrpscounter) * 100)
 			}		
 			Write-Progress -Activity "Loading in online voice routing policies ..." -Status "Ready" -Completed			
-			#return $ovrpslistedonce						
+			#return $Global:ovrpslistedonce						
 		}
 		catch { 
 			[void][System.Windows.Forms.MessageBox]::Show("Could not find any online voice routing policy") 
 			Write-Host "Could not find any online voice routing policy" -ForegroundColor Red
-			$ovrpslistedonce = "no"
+			$Global:ovrpslistedonce = "no"
 		}				
 	}
 	else {
@@ -301,50 +303,50 @@ function ListOVRPs {
 #Select online voice routing policy
 function SelectOVRP {
 		try { 
-			$userovrp = $Cassignvrp.SelectedItem
-			Write-Host "Selected online voice routing policy: $userovrp" -ForegroundColor Yellow			
+			$Global:userovrp = $Global:Cassignvrp.SelectedItem
+			Write-Host "Selected online voice routing policy: $Global:userovrp" -ForegroundColor Yellow			
 		}
 		catch { 
 			[void][System.Windows.Forms.MessageBox]::Show("Could not select online voice routing policy") 
-			Write-Host "Could not select online voice routing policy $userovrp." -ForegroundColor Red
+			Write-Host "Could not select online voice routing policy $Global:userovrp." -ForegroundColor Red
 		}			
 }
 #Assign online voice routing policy
 function AssignOVRP {
 	try { 
-		if($userovrp -eq "Global"){
-			Grant-CsOnlineVoiceRoutingPolicy -Identity $selecteduser -PolicyName $null
-			Write-Host "Assign global OVRP to $selecteduser" -ForegroundColor Yellow
+		if($Global:userovrp -eq "Global"){
+			Grant-CsOnlineVoiceRoutingPolicy -Identity $Global:selecteduser -PolicyName $null
+			Write-Host "Assigned global OVRP to $Global:selecteduser" -ForegroundColor Yellow
 		}
 		else {
-			Grant-CsOnlineVoiceRoutingPolicy -Identity $selecteduser -PolicyName $userovrp	
-			Write-Host "Assign $userovrp to $selecteduser" -ForegroundColor Yellow
+			Grant-CsOnlineVoiceRoutingPolicy -Identity $Global:selecteduser -PolicyName $Global:userovrp	
+			Write-Host "Assigned $Global:userovrp to $Global:selecteduser" -ForegroundColor Yellow
 		}		
 	}
 	catch { 
 		[void][System.Windows.Forms.MessageBox]::Show("Could not assign online voice routing policy.") 
-		Write-Host "Could not assign online voice routing policy to $selecteduser." -ForegroundColor Red
+		Write-Host "Could not assign online voice routing policy to $Global:selecteduser" -ForegroundColor Red
 	}			
 }
 #List calling policis
 function ListCPs {
-	if ($cpslistedonce -ne "yes"){
-		Write-Host "Loading calling policies..." -ForegroundColor Yellow
+	if ($Global:cpslistedonce -ne "yes"){
+		Write-Host "Loading calling policies ..." -ForegroundColor Yellow
 		try {
-			$cpslistedonce = "yes"
-			$allcallingpolicies = Get-CsTeamsCallingPolicy
-			$cpscounter = ($allcallingpolicies).count
-			$ipb3 = 0 #progresscounter
-			$allcallingpolicies | ForEach-Object {
+			$Global:cpslistedonce = "yes"
+			$Global:allcallingpolicies = Get-CsTeamsCallingPolicy
+			$Global:cpscounter = ($Global:allcallingpolicies).count
+			$Global:ipb3 = 0 #progresscounter
+			$Global:allcallingpolicies | ForEach-Object {
 				[void] $Cassigncp.Items.Add($_.Identity) 
-				Write-Progress -Activity "Loading in calling policies ..." -Status "Progress" -PercentComplete ((($ipb3++) / $cpscounter) * 100)
+				Write-Progress -Activity "Loading in calling policies ..." -Status "Progress" -PercentComplete ((($Global:ipb3++) / $Global:cpscounter) * 100)
 			}
 			Write-Progress -Activity "Loading in calling policies ..." -Status "Ready" -Completed	
 		}
 		catch { 
-			[void][System.Windows.Forms.MessageBox]::Show("Could not find any calling policy.") 
+			[void][System.Windows.Forms.MessageBox]::Show("Could not find any calling policy") 
 			Write-Host "Could not find any calling policy" -ForegroundColor Red
-			$cpslistedonce = "no"
+			$Global:cpslistedonce = "no"
 		}
 	}
 	else {
@@ -354,30 +356,33 @@ function ListCPs {
 #Select calling policy
 function SelectCP {
 	try {  
-		$usercp = $Cassigncp.SelectedItem	
-		Write-Host "Selected calling policy: $usercp" -ForegroundColor Yellow	
+		$Global:usercp = $Cassigncp.SelectedItem	
+		Write-Host "Selected calling policy: $Global:usercp" -ForegroundColor Yellow	
 	}
 	catch { 
 		[void][System.Windows.Forms.MessageBox]::Show("Could not select calling policy.") 
-		Write-Host "Could not select calling policy $usercp." -ForegroundColor Red
+		Write-Host "Could not select calling policy $Global:usercp." -ForegroundColor Red
 	}		
 }
 #Assign calling policy
 function AssignCP {
+		Write-Host "Selected user: $Global:selecteduser" -ForegroundColor Yellow
+		Write-Host "Selected calling policy: $Global:usercp" -ForegroundColor Yellow
+	
 	try { 
-			if ($usercp -eq "Global"){
-				Grant-CsTeamsCallingPolicy -Identity $selecteduser -PolicyName $null
-				Write-Host "Assign global calling policy to $selecteduser" -ForegroundColor Yellow
+			if ($Global:usercp -eq "Global"){
+				Grant-CsTeamsCallingPolicy -Identity $Global:selecteduser -PolicyName $null
+				Write-Host "Assigned global calling policy to $Global:selecteduser" -ForegroundColor Yellow
 			}
 			else {
-				Grant-CsTeamsCallingPolicy -Identity $selecteduser -PolicyName $usercp
-				Write-Host "Assign calling policy $usercp to $selecteduser" -ForegroundColor Yellow
+				Grant-CsTeamsCallingPolicy -Identity $Global:selecteduser -PolicyName $Global:usercp
+				Write-Host "Assigned calling policy $Global:usercp to $Global:selecteduser" -ForegroundColor Yellow
 			}
 			
 		}
 	catch { 
-		[void][System.Windows.Forms.MessageBox]::Show("Could not assign calling policy $usercp to $selecteduser.")
-		Write-Host "Could not assign calling policy $usercp to $selecteduser" -ForegroundColor Yellow 
+		[void][System.Windows.Forms.MessageBox]::Show("Could not assign calling policy $Global:usercp to $Global:selecteduser")
+		Write-Host "Could not assign calling policy $Global:usercp to $Global:selecteduser" -ForegroundColor Yellow 
 	}		
 }
 
@@ -394,17 +399,31 @@ function ExportPhoneNumbers {
 
     if ($saveFileDialog.FileName -ne "") {
 		#export all users to csv
-		Write-Host "Exporting all users to CSV file ..." -ForegroundColor Yellow
+		Write-Host "Exporting all users to CSV file ..." -ForegroundColor Yellow		
+		#progress bar preparation
 		$index = 0
-        $totalUsers = $allusers.Count
-		$allusers | ForEach-Object {
-			$index++
-			$csvline = $_.UserPrincipalName + ";" + $_.SipAddress + ";" + $_.LineUri + ";" + $_.OnlineVoiceRoutingPolicy + ";" + $_.TeamsCallingPolicy
-			$csv.Add($csvline)
+        $totalUsers = ($Global:allusers).Count
+		#new empty csv object
+		$csv = New-Object System.Collections.Generic.List[System.Object]
+		#a loop to export all users to csv
+		$Global:allusers | ForEach-Object {
 			# Update the progress bar
             Write-Progress -Activity "Exporting users to CSV" -Status "$index of $totalUsers users exported" -PercentComplete ($index / $totalUsers * 100)
+			$index++
+			#create csvline custom object
+			$csvline = [PSCustomObject]@{			
+				UPN = $_.UserPrincipalName 
+				SIP = $_.SipAddress 
+				LineURI = $_.LineUri 
+				OnlineVoiceRoutingPolicy = $_.OnlineVoiceRoutingPolicy 
+				CallingPolicy = $_.TeamsCallingPolicy
+			}			
+			Write-Host $csvline -ForegroundColor Yellow
+			$csv.Add($csvline)
 		}  
-		$csv | Export-Csv -Path $saveFileDialog.FileName -Append -NoTypeInformation -Encoding UTF8	
+		$csv | Export-Csv -Path $saveFileDialog.FileName -NoTypeInformation -Encoding UTF8
+		#remove progress bar if done
+		Write-Progress -Activity "Exporting users to CSV" -Status "Completed" -Completed	
 		Write-Host "Exporting all users to CSV file completed." -ForegroundColor Yellow
     } else {
         Write-Host "No file path was specified." -ForegroundColor Red
@@ -423,10 +442,10 @@ function GenerateForm {
 	$Brefresh = New-Object System.Windows.Forms.Button
 	$Bdisconnectteams = New-Object System.Windows.Forms.Button
 	$Bclose = New-Object System.Windows.Forms.Button
-	$Cselectuser = New-Object System.Windows.Forms.ComboBox
+	$Global:Cselectuser = New-Object System.Windows.Forms.ComboBox
 	$Lselectuser = New-Object System.Windows.Forms.Label
 	$Lassignvrp = New-Object System.Windows.Forms.Label
-	$Cassignvrp = New-Object System.Windows.Forms.ComboBox
+	$Global:Cassignvrp = New-Object System.Windows.Forms.ComboBox
 	$Lassigncp = New-Object System.Windows.Forms.Label
 	$Cassigncp = New-Object System.Windows.Forms.ComboBox	
 	$Tenterlineuri = New-Object System.Windows.Forms.TextBox
@@ -483,17 +502,17 @@ function GenerateForm {
 	$Bclose.Add_Click( { FuCloseOnClick } )	
 
 	# Cselectuser
-	$Cselectuser.DropDownStyle = [System.Windows.Forms.ComboBoxStyle]::DropDownList
-	$Cselectuser.FormattingEnabled = $true
-	$Cselectuser.Location = New-Object System.Drawing.Point(148, 39)
-	$Cselectuser.MaxDropDownItems = 10
-	$Cselectuser.Name = "Cselectuser"
-	$Cselectuser.Size = New-Object System.Drawing.Size(356, 21)
-	$Cselectuser.Sorted = $true
-	$Cselectuser.TabIndex = 3
-	#$Cselectuser.Add_Click( { ListUsers } ) #reinitializes, readds etc.
+	$Global:Cselectuser.DropDownStyle = [System.Windows.Forms.ComboBoxStyle]::DropDownList
+	$Global:Cselectuser.FormattingEnabled = $true
+	$Global:Cselectuser.Location = New-Object System.Drawing.Point(148, 39)
+	$Global:Cselectuser.MaxDropDownItems = 10
+	$Global:Cselectuser.Name = "Cselectuser"
+	$Global:Cselectuser.Size = New-Object System.Drawing.Size(356, 21)
+	$Global:Cselectuser.Sorted = $true
+	$Global:Cselectuser.TabIndex = 3
+	#$Global:Cselectuser.Add_Click( { ListUsers } ) #reinitializes, readds etc.
 	#ListUsers
-	$Cselectuser.Add_SelectedIndexChanged( { SelectUser } )
+	$Global:Cselectuser.Add_SelectedIndexChanged( { SelectUser } )
 
 	# Lselectuser
 	$Lselectuser.AutoSize = $true
@@ -514,16 +533,16 @@ function GenerateForm {
 	$Lassignvrp.Font = $fontboldtext
 
 	# Cassignvrp
-	$Cassignvrp.DropDownStyle = [System.Windows.Forms.ComboBoxStyle]::DropDownList
-	$Cassignvrp.FormattingEnabled = $true
-	$Cassignvrp.Location = New-Object System.Drawing.Point(148, 84)
-	$Cassignvrp.Name = "Cassignvrp"
-	$Cassignvrp.Size = New-Object System.Drawing.Size(356, 21)
-	$Cassignvrp.IntegralHeight = $true
-	$Cassignvrp.MaxDropDownItems = 15
-	$Cassignvrp.TabIndex = 5
-	#$Cassignvrp.Add_Click( { ListOVRPs } )
-	$Cassignvrp.Add_SelectedIndexChanged( { SelectOVRP } )
+	$Global:Cassignvrp.DropDownStyle = [System.Windows.Forms.ComboBoxStyle]::DropDownList
+	$Global:Cassignvrp.FormattingEnabled = $true
+	$Global:Cassignvrp.Location = New-Object System.Drawing.Point(148, 84)
+	$Global:Cassignvrp.Name = "Cassignvrp"
+	$Global:Cassignvrp.Size = New-Object System.Drawing.Size(356, 21)
+	$Global:Cassignvrp.IntegralHeight = $true
+	$Global:Cassignvrp.MaxDropDownItems = 15
+	$Global:Cassignvrp.TabIndex = 5
+	#$Global:Cassignvrp.Add_Click( { ListOVRPs } )
+	$Global:Cassignvrp.Add_SelectedIndexChanged( { SelectOVRP } )
 
 	# Lassigncp
 	$Lassigncp.AutoSize = $true
@@ -552,8 +571,8 @@ function GenerateForm {
 	$Tenterlineuri.Size = New-Object System.Drawing.Size(356, 20)
 	$Tenterlineuri.TabIndex = 10
 	try {
-		if (($null -eq $currentlineuri) -or ($currentlineuri -eq " ")){ $Tenterlineuri.Text = "e.g. +49711987456123" }
-		else { $Tenterlineuri.Text = "$currentlineuri" }
+		if (($null -eq $Global:currentlineuri) -or ($Global:currentlineuri -eq " ")){ $Tenterlineuri.Text = "e.g. +49711987456123" }
+		else { $Tenterlineuri.Text = "$Global:currentlineuri" }
 	}
 	catch { $Tenterlineuri.Text = "e.g. +49711987456123" }	
 
@@ -648,7 +667,7 @@ function GenerateForm {
 	$Lreleasenotes.Name = "Lreleasenotes"
 	$Lreleasenotes.Size = New-Object System.Drawing.Size(155, 15)
 	$Lreleasenotes.TabIndex = 25
-	$Lreleasenotes.Text = "V 0.4 Erik Kleefeldt December 2023"
+	$Lreleasenotes.Text = "V 0.4 Erik Kleefeldt January 2024"
 
 	# LLerik365blog
 	$LLerik365blog.AutoSize = $true
@@ -685,9 +704,9 @@ function GenerateForm {
 	$FWindow.Controls.Add($Lassigncp)
 	$FWindow.Controls.Add($Cassigncp)
 	$FWindow.Controls.Add($Lassignvrp)
-	$FWindow.Controls.Add($Cassignvrp)
+	$FWindow.Controls.Add($Global:Cassignvrp)
 	$FWindow.Controls.Add($Lselectuser)
-	$FWindow.Controls.Add($Cselectuser)
+	$FWindow.Controls.Add($Global:Cselectuser)
 	$FWindow.Controls.Add($Bclose)
 	$FWindow.Controls.Add($Bdisconnectteams)
 	$FWindow.Controls.Add($Ltermsofuse)
