@@ -10,7 +10,7 @@ Use on your own risk.
 
 ![TDRUNA](/TDRUNA-SelectUser.png)
 
-![TDRUNA](/TDRUNA-RefreshUsers)
+![TDRUNA](/TDRUNA-RefreshUsers.png)
 
 ## Requirements and prerequisites
   - Recent PowerShell version
