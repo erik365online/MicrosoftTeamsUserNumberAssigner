@@ -8,6 +8,10 @@ Use on your own risk.
 
 ![TDRUNA](/TDRUNA.png)
 
+![TDRUNA](/TDRUNA-SelectUser.png)
+
+![TDRUNA](/TDRUNA-RefreshUsers)
+
 ## Requirements and prerequisites
   - Recent PowerShell version
   - PowerShell Script Execution must be enabled (Get-/Set-ExecutionPolicy ...)
