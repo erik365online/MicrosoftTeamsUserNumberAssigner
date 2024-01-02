@@ -6,7 +6,7 @@ It's called the Teams Direct Routing User Number Assigner (TDR-UNA) and can be u
   
 Use on your own risk.
 
-![TDRUNA](/TDRUNAV03.png)
+![TDRUNA](/TDRUNA.png)
 
 ## Requirements and prerequisites
   - Recent PowerShell version
@@ -14,36 +14,29 @@ Use on your own risk.
   - Microsoft Teams Module V4.2.0
   - Microsoft 365 Global Admin or Skype for Business Administrator
 
-## Features V0.3
+## Features V0.4
 - GUI for Teams Direct Routing user enablement
-- Connect to Microsoft Teams (only with device authentication, see PowerShell info after click on connect)
+- Connect to Microsoft Teams (only with device authentication)
 - Disconnect Microsoft Teams
 - List all users
-- Select a user
-- Set a user's Teams Upgrade mode to TeamsOnly (deprected and removed V0.2 feature)
-- Enable a user for Enterprise Voice (deprected and removed V0.2 feature)
-- Enable a user for Hosted Voicemail (deprected and removed V0.2 feature)
-- Enable a user for Enterprise Voice (removed V0.2 feature)
+- Select a user	
+- Assign a phone number (direct routing)
+- Release a phone number (direct routing)
 - Assign a online voice routing policy
 - Assign a calling policy
 - Deleting user phone numbers (new) 
 
-## Bugs, issues and limitations V0.3
+## Bugs, issues and limitations V0.4
 - Not checking for assigned licsense sku or Assigned Plan for a listed or selected user
 - No refresh of users after a change to a user was applied is implemented (disconnect, close, open, connect required)
-- Even resource accounts are listed
-- Changing resource account numbers is not implemented/supported (!)
-- Deleting resource account phone numbers in not implemented	
+- Resource accounts are listed
+- Changing resource account numbers is not implemented/supported/tested
+- Deleting resource account phone numbers in not implemented/supported/tested
 - No code-signed script
-	
-## Bugs, issues and limitations V 0.3
-- Not checking for assigned licsense sku or Assigned Plan for a listed or selected user
-- No refresh of users after a change to a user was applied is implemented (disconnect, close, open, connect required)
-- Even resource accounts are listed
-- Changing resource account numbers is not implemented/supported (!)
-- Deleting resource account phone numbers in not implemented
-- No code-signed script
+- No certificate-based authentication (maybe in a future release)
+- No application-based access token authentication (maybe in a future release)
 
 ### Connect & Follow Erik365Online
 Blog: [https://www.erik365.blog](https://www.erik365.blog)
+Mastodon [https://techhub.social/@erik365online](https://techhub.social/@erik365online)
 Twitter: [https://twitter.com/erik365online](https://twitter.com/erik365online)
