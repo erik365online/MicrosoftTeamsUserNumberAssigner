@@ -37,6 +37,6 @@ Use on your own risk.
 - No application-based access token authentication (maybe in a future release)
 
 ### Connect & Follow Erik365Online
-Blog: [https://www.erik365.blog](https://www.erik365.blog)
-Mastodon [https://techhub.social/@erik365online](https://techhub.social/@erik365online)
-Twitter: [https://twitter.com/erik365online](https://twitter.com/erik365online)
+- Blog: [https://www.erik365.blog](https://www.erik365.blog)
+- Mastodon [https://techhub.social/@erik365online](https://techhub.social/@erik365online)
+- Twitter: [https://twitter.com/erik365online](https://twitter.com/erik365online)
