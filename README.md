@@ -11,8 +11,8 @@ Use on your own risk.
 ## Requirements and prerequisites
   - Recent PowerShell version
   - PowerShell Script Execution must be enabled (Get-/Set-ExecutionPolicy ...)
-  - Microsoft Teams Module V4.2.0
-  - Microsoft 365 Global Admin or Skype for Business Administrator
+  - Microsoft Teams Module V5.8.0
+  - Microsoft 365 Global Admin, Teams Administrator, Teams Communication Administrator or similair
 
 ## Features V0.4
 - GUI for Teams Direct Routing user enablement
