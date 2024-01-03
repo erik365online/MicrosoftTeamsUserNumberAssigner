@@ -172,7 +172,7 @@ function DisconnectTeamsOnClick {
 	}
 }
 #Get all teams user to populate dropdown list
-    function ListUsers {
+function ListUsers {
         if ($Global:userslistedonce -ne "yes"){	
             try {
                 $Global:userslistedonce = "yes"		
@@ -204,13 +204,13 @@ function DisconnectTeamsOnClick {
         else {
             #Do nothing to avoid re-loading items to the drop down
         }	
-    }
+}
 #Select user
 function SelectUser {	
 	try {	
-        Write-Host "############# Selected User #############" -ForegroundColor Cyan
+        Write-Host "############# Selected User Details Start #############" -ForegroundColor Cyan
 		$Global:selecteduser = $Global:Cselectuser.SelectedItem		
-		Write-Host $Global:selecteduser -ForegroundColor Yellow
+		Write-Host $Global:selecteduser -ForegroundColor Cyan
 		
 		$Global:currentuser = (Get-CsOnlineUser "$Global:selecteduser")		
 		$Global:currentuser | Format-List UserPrincipalName,LineUri,OnlineVoiceRoutingPolicy,TeamsCallingPolicy,TenantDialPlan
@@ -250,6 +250,8 @@ function SelectUser {
 			$value = $_.value
 			Write-Host "$name = $value" -ForegroundColor Yellow
 		} 
+		Write-Host "############# Selected User Details End #############" -ForegroundColor DarkCyan
+	
 	}
 	catch { 
 		[void][System.Windows.Forms.MessageBox]::Show("No user could be selected. Please select a user.") 
@@ -260,15 +262,15 @@ function SelectUser {
 #Assign phone number
 function AssignLineUri {
 	try { 
-		$Global:lineuri = $Tenterlineuri.Text				
+		$Global:lineuri = $Tenterlineuri.Text			
 		Set-CsPhoneNumberAssignment -Identity "$Global:selecteduser" -PhoneNumber "$Global:lineuri" -PhoneNumberType DirectRouting
 		#Noted and reservered for future releases
 		#Set-CsPhoneNumberAssignment -Identity "$Global:selecteduser" -PhoneNumber "$Global:lineuri" -PhoneNumberType CallingPlan
 		#Set-CsPhoneNumberAssignment -Identity "$Global:selecteduser" -PhoneNumber "$Global:lineuri" -PhoneNumberType OperatorConnect
 		#Set-CsPhoneNumberAssignment -Identity "$Global:selecteduser" -PhoneNumber "$Global:lineuri" -PhoneNumberType OCMobile		
 		
-		[void][System.Windows.Forms.MessageBox]::Show("$Global:lineuri assigned to $Global:selecteduser.")
-		Write-Host "$Global:lineuri assigned to $Global:selecteduser." -ForegroundColor Yellow
+		[void][System.Windows.Forms.MessageBox]::Show("$Global:lineuri assigned to $Global:selecteduser")
+		Write-Host "$Global:lineuri assigned to $Global:selecteduser" -ForegroundColor Yellow
 		}
 	catch { 
 		[void][System.Windows.Forms.MessageBox]::Show("Could not assign phone number. `nPlease check´n $Global:lineuri ´nif the value is correct. `nIt must be tel:+49..123.")	
@@ -400,7 +402,7 @@ function AssignCP {
 	}		
 }
 
-#List calling policis
+#List dial plans
 function ListDPs {
 	if ($Global:dpslistedonce -ne "yes"){
 		Write-Host "Loading dial plans ..." -ForegroundColor Yellow
@@ -425,7 +427,7 @@ function ListDPs {
 		#Do nothing
 	}
 }
-#Select calling policy
+#Select dial plans
 function SelectDP {
 	try {  
 		$Global:userdp = $Cassigndp.SelectedItem	
@@ -436,7 +438,7 @@ function SelectDP {
 		Write-Host "Could not select dial plan $Global:userdp." -ForegroundColor Red
 	}		
 }
-#Assign calling policy
+#Assign dial plans
 function AssignDP {
 		Write-Host "Selected user: $Global:selecteduser" -ForegroundColor Yellow
 		Write-Host "Selected calling policy: $Global:usercp" -ForegroundColor Yellow
@@ -666,8 +668,7 @@ function GenerateForm {
 	$Tenterlineuri.Location = New-Object System.Drawing.Point(148, 63)
 	$Tenterlineuri.Name = "Tenterlineuri"
 	$Tenterlineuri.Size = New-Object System.Drawing.Size(356, 20)
-	$Tenterlineuri.TabIndex = 10
-	#$Tenterlineuri.Font = New-Object System.Drawing.Font("Segoe UI", 9,[System.Drawing.FontStyle]::Italic,[System.Drawing.GraphicsUnit]::Point, 0)	
+	$Tenterlineuri.TabIndex = 10	
 	try {
 		if (($null -eq $Global:currentlineuri) -or ($Global:currentlineuri -eq " ")){ $Tenterlineuri.Text = "for example +49711987456123" }
 		else { $Tenterlineuri.Text = "$Global:currentlineuri" }
