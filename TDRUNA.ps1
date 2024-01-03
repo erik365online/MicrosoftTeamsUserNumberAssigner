@@ -250,6 +250,11 @@ function SelectUser {
 			$value = $_.value
 			Write-Host "$name = $value" -ForegroundColor Yellow
 		} 
+		#change other fields / controls to match selected user (draft)
+		#$Tenterlineuri.Text = "$Global:currentlineuri"
+		#$Global:Cassignvrp.SelectedItem = "$Global:currentovrp"
+		#$Cassigncp.SelectedItem = "$Global:currentcp"
+		#$Cassigndp.SelectedItem = "$Global:currentdp"
 		Write-Host "############# Selected User Details End #############" -ForegroundColor DarkCyan
 	
 	}
@@ -324,7 +329,7 @@ function SelectOVRP {
 		}
 		catch { 
 			[void][System.Windows.Forms.MessageBox]::Show("Could not select online voice routing policy") 
-			Write-Host "Could not select online voice routing policy $Global:userovrp." -ForegroundColor Red
+			Write-Host "Could not select online voice routing policy $Global:userovrp" -ForegroundColor Red
 		}			
 }
 #Assign online voice routing policy
@@ -340,7 +345,7 @@ function AssignOVRP {
 		}		
 	}
 	catch { 
-		[void][System.Windows.Forms.MessageBox]::Show("Could not assign online voice routing policy.") 
+		[void][System.Windows.Forms.MessageBox]::Show("Could not assign online voice routing policy") 
 		Write-Host "Could not assign online voice routing policy to $Global:selecteduser" -ForegroundColor Red
 	}			
 }
