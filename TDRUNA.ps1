@@ -18,6 +18,7 @@ Teams Direct Routing User Number Assigner (TDR-UNA)
 	- Assign a calling policy
 	- Assign a (tenant) dialplan
 	- Deleting user phone numbers (new) 
+	- Export users and phone numbers to CSV
 	
 
   Bugs, issues and limitations V0.4
@@ -42,7 +43,7 @@ Author: Erik Kleefeldt
 19.04.2021 Adjustments to run with Teams PowerShell Module Version 4.2.0
 29.12.2023 Optimized and adjustments to run with Teams PowerShell Module Version 5.8.0
 02.01.2024 Optimized and adjustments to run with Teams PowerShell Module Version 5.8.0
-03.01.2024 Added new features to deleted dialplans
+03.01.2024 Added new features tenant dial plans
 
 .LINK
 https://www.erik365.blog
