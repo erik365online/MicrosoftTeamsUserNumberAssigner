@@ -44,7 +44,7 @@ Use on your own risk.
 
 ## Bugs, issues and limitations V0.4
 - Not checking for assigned licsense sku or Assigned Plan for a listed or selected user
-- No refresh of users after a change to a user was applied is implemented (disconnect, close, open, connect required)
+- No automatic refresh of users after a change to a user was applied is implemented
 - Resource accounts are listed
 - Changing resource account numbers is not implemented/supported/tested
 - Deleting resource account phone numbers in not implemented/supported/tested
