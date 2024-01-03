@@ -28,7 +28,10 @@ Use on your own risk.
 - Release a phone number (direct routing)
 - Assign a online voice routing policy
 - Assign a calling policy
-- Deleting user phone numbers (new) 
+- Assign a (tenant) dialplan
+- Deleting user phone numbers (new)
+- Export users and phone numbers to CSV
+
 
 ## Bugs, issues and limitations V0.4
 - Not checking for assigned licsense sku or Assigned Plan for a listed or selected user
