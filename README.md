@@ -8,9 +8,18 @@ Use on your own risk.
 
 ![TDRUNA](/TDRUNA.png)
 
+### Connect
+![TDRUNA](/TDRUNA-Connect.png)
+### Connected
+![TDRUNA](/TDRUNA-Connected.png)
+### List Users
+![TDRUNA](/TDRUNA-ListUsers.png)
+### Select a user
 ![TDRUNA](/TDRUNA-SelectUser.png)
-
+### Refresh all users (clears and reloads)
 ![TDRUNA](/TDRUNA-RefreshUsers.png)
+### Export users with relevant data including phone number if existent into a CSV
+![TDRUNA](/TDRUNA-UserCsvExport.png)
 
 ## Requirements and prerequisites
   - Recent PowerShell version
@@ -28,7 +37,10 @@ Use on your own risk.
 - Release a phone number (direct routing)
 - Assign a online voice routing policy
 - Assign a calling policy
-- Deleting user phone numbers (new) 
+- Assign a (tenant) dialplan
+- Deleting user phone numbers (new)
+- Export users and phone numbers to CSV
+
 
 ## Bugs, issues and limitations V0.4
 - Not checking for assigned licsense sku or Assigned Plan for a listed or selected user
