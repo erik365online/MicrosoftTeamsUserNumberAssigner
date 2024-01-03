@@ -8,9 +8,18 @@ Use on your own risk.
 
 ![TDRUNA](/TDRUNA.png)
 
+### Connect
+![TDRUNA](/TDRUNA-Connect.png)
+### Connected
+![TDRUNA](/TDRUNA-Connected.png)
+### List Users
+![TDRUNA](/TDRUNA-ListUsers.png)
+### Select a user
 ![TDRUNA](/TDRUNA-SelectUser.png)
-
+### Refresh all users (clears and reloads)
 ![TDRUNA](/TDRUNA-RefreshUsers.png)
+### Export users with relevant data including phone number if existent into a CSV
+![TDRUNA](/TDRUNA-UserCsvExport.png)
 
 ## Requirements and prerequisites
   - Recent PowerShell version
