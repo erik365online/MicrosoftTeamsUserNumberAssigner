@@ -20,8 +20,7 @@ Teams Direct Routing User Number Assigner (TDR-UNA)
 	- Deleting user phone numbers (new) 
 	- Export users and phone numbers to CSV
 	
-
-  Bugs, issues and limitations V0.4
+.BUGS, ISSUES AND LIMITATIONS V0.4
 	- Not checking for assigned licsense sku or Assigned Plan for a listed or selected user 	
 	- Resource accounts are listed
 	- Changing resource account numbers is not implemented/supported/tested
